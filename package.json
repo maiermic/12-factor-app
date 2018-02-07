@@ -6,6 +6,7 @@
   "subdomain": "revealjs",
   "main": "js/reveal.js",
   "scripts": {
+    "deploy": "NODE_DEBUG=gh-pages node deploy.js",
     "test": "grunt test",
     "start": "grunt serve",
     "build": "grunt"
