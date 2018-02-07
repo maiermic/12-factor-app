@@ -1,8 +1,11 @@
 var ghpages = require('gh-pages');
 
-ghpages.publish(process.cwd(), {
-    user: {
-        name: "Michael Maier",
-        email: "maier1michael@gmail.com"
-    }
+var gitconfig = require('gitconfig');
+gitconfig.get({
+    location: 'local'
+}).then(function (config) {
+    ghpages.publish(process.cwd(), {
+        user: config.user
+    });
 });
+
