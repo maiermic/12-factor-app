@@ -1,50 +1,28 @@
 {
   "name": "12-factor-app",
-  "version": "3.6.0",
-  "description": "The HTML Presentation Framework",
-  "homepage": "http://revealjs.com",
-  "subdomain": "revealjs",
-  "main": "js/reveal.js",
+  "version": "1.0.0",
+  "description": "Presentation about 12-factor apps",
+  "homepage": "https://maiermic.github.io/12-factor-app/",
   "scripts": {
+    "build": "reveal-md src/presentation.md --static dist",
+    "predeploy": "yarn run build",
     "deploy": "NODE_DEBUG=gh-pages node deploy.js",
     "create-pdf-live": "decktape reveal https://maiermic.github.io/12-factor-app/ 12-factor-app.pdf",
-    "create-pdf-local": "decktape reveal http://localhost:8000/ 12-factor-app.pdf",
-    "test": "grunt test",
-    "start": "grunt serve",
-    "build": "grunt"
+    "create-pdf-local": "decktape reveal http://localhost:1948/src/presentation.md 12-factor-app.pdf",
+    "create-pdf": "reveal-md src/presentation.md --theme black --print 12-factor-app.pdf",
+    "start": "reveal-md src/presentation.md",
+    "watch": "reveal-md -w src/presentation.md"
   },
-  "author": {
-    "name": "Hakim El Hattab",
-    "email": "hakim.elhattab@gmail.com",
-    "web": "http://hakim.se"
-  },
+  "author": "Michael Maier",
   "repository": {
     "type": "git",
-    "url": "git://github.com/hakimel/reveal.js.git"
-  },
-  "engines": {
-    "node": ">=4.0.0"
+    "url": "git://github.com/maiermic/12-factor-app"
   },
   "devDependencies": {
     "decktape": "^2.7.0",
-    "express": "^4.15.2",
     "gh-pages": "^1.1.0",
     "gitconfig": "^2.0.3",
-    "grunt": "^1.0.1",
-    "grunt-autoprefixer": "^3.0.4",
-    "grunt-cli": "^1.2.0",
-    "grunt-contrib-connect": "^1.0.2",
-    "grunt-contrib-cssmin": "^2.1.0",
-    "grunt-contrib-jshint": "^1.1.0",
-    "grunt-contrib-qunit": "~1.2.0",
-    "grunt-contrib-uglify": "^2.3.0",
-    "grunt-contrib-watch": "^1.0.0",
-    "grunt-retire": "^1.0.7",
-    "grunt-sass": "^2.0.0",
-    "grunt-zip": "~0.17.1",
-    "mustache": "^2.3.0",
-    "reveal-md": "^1.1.3",
-    "socket.io": "^1.7.3"
+    "reveal-md": "^1.1.3"
   },
   "license": "MIT"
 }

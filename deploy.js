@@ -6,7 +6,7 @@ var gitconfig = require('gitconfig');
 gitconfig.get({
     location: 'local'
 }).then(function (config) {
-    ghpages.publish(process.cwd(), {
+    ghpages.publish('dist', {
         user: config.user
     });
 });
