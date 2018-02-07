@@ -11,7 +11,13 @@ yarn run start
 ```
 
 ### Create PDF
-Local development server has to be running on port 8000 before you run:
+Local development server has to be running on port 1948
+
+```
+yarn run start
+```
+
+Then run:
 
 ```
 yarn run create-pdf-local
