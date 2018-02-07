@@ -6,7 +6,7 @@
   "subdomain": "revealjs",
   "main": "js/reveal.js",
   "scripts": {
-    "deploy": "gh-pages -d .",
+    "deploy": "NODE_DEBUG=gh-pages node deploy.js",
     "test": "grunt test",
     "start": "grunt serve",
     "build": "grunt"
@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "express": "^4.15.2",
+    "gh-pages": "^1.1.0",
     "grunt": "^1.0.1",
     "grunt-autoprefixer": "^3.0.4",
     "grunt-cli": "^1.2.0",
@@ -40,8 +41,5 @@
     "mustache": "^2.3.0",
     "socket.io": "^1.7.3"
   },
-  "license": "MIT",
-  "dependencies": {
-    "gh-pages": "^1.1.0"
-  }
+  "license": "MIT"
 }
