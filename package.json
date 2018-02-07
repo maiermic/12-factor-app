@@ -7,6 +7,8 @@
   "main": "js/reveal.js",
   "scripts": {
     "deploy": "NODE_DEBUG=gh-pages node deploy.js",
+    "create-pdf-live": "decktape reveal https://maiermic.github.io/12-factor-app/ 12-factor-app.pdf",
+    "create-pdf-local": "decktape reveal http://localhost:8000/ 12-factor-app.pdf",
     "test": "grunt test",
     "start": "grunt serve",
     "build": "grunt"
