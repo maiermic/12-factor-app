@@ -25,7 +25,7 @@ See [presentation](https://maiermic.github.io/12-factor-app/) (work in progress)
 ```
 nvm use
 yarn install
-yarn run start
+yarn run watch
 ```
 
 ### Create PDF
