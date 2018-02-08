@@ -56,7 +56,7 @@ Note:
 
 A deploy is a running instance of the app
 
-![codebase deploys](https://12factor.net/images/codebase-deploys.png) <!-- .element: style="filter: invert(87%); border: none; box-shadow: none;" -->
+![codebase deploys](img/codebase-deploys.png) <!-- .element: style="filter: invert(87%); border: none; box-shadow: none;" -->
 
 Note: 
 - codebase is the same across all deploys
@@ -143,7 +143,7 @@ Note:
 
 ## 4. Backing services
 
-![attach resources](https://12factor.net/images/attached-resources.png) <!-- .element: style="filter: invert(87%); border: none; box-shadow: none;" -->
+![attach resources](img/attached-resources.png) <!-- .element: style="filter: invert(87%); border: none; box-shadow: none;" -->
 
 Note:
 - no distinction between local and third party services
@@ -153,7 +153,7 @@ Note:
 ## 5. Build, release, run
 
 
-![stages](https://12factor.net/images/release.png) <!-- .element: style="filter: invert(87%); border: none; box-shadow: none;" -->
+![stages](img/release.png) <!-- .element: style="filter: invert(87%); border: none; box-shadow: none;" -->
 
 strict separation between stages:  <!-- .element: style="text-align: left; font-weight: bold;" -->
 1. **build** = code repo converted into executable bundle
@@ -333,7 +333,7 @@ Note:
 
 ----
 
-![productivity: microservices vs. monolith](https://martinfowler.com/bliki/images/microservice-verdict/productivity.png) <!-- .element: style="width: calc(95% - 200px);" -->
+![productivity: microservices vs. monolith](img/productivity.png) <!-- .element: style="width: calc(95% - 200px);" -->
 
 ----
 
