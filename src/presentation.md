@@ -78,6 +78,15 @@ Note:
   - JS: npm vs. yarn
   - PHP: composer
 
+----
+
+### NPM vs. YARN
+
+- NPM is not 100 percent deterministic
+    - different versions might be installed on another computer (even if you use NPM shrinkwrap)
+- Yarn was built to be deterministic, reliable, and fast
+    - VCS: add `package.json` and `yarn.lock`, ignore `node_modules`
+
 ---
 
 ## 3. Config
