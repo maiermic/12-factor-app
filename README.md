@@ -28,6 +28,8 @@ yarn install
 yarn run watch
 ```
 
+Open http://localhost:1948/presentation.md
+
 ### Create PDF
 Local development server has to be running on port 1948
 
