@@ -1,3 +1,18 @@
+<style>
+.reveal code {
+    background: #3f3f3f;
+    color: #dcdcdc;
+    font-size: 80%;
+}
+.lb {
+  text-align: left;
+  font-weight: bold;
+}
+.ml-48 {
+  margin-left: 48px;
+}
+</style>
+
 # [Twelve Factor Apps](https://12factor.net)
 
 methodology for building software-as-a-service apps
@@ -109,7 +124,7 @@ Note:
 
 ### Configuration Files
 
-Disadvantages:  <!-- .element: style="text-align: left; font-weight: bold;" -->
+Disadvantages:  <!-- .element: class="lb" -->
 - easy to mistakenly check in to the repo
 - tendency to be scattered about in
   - different places
@@ -119,7 +134,7 @@ Disadvantages:  <!-- .element: style="text-align: left; font-weight: bold;" -->
 
 ### Environment Variables
 
-store config in environment variables  <!-- .element: style="text-align: left; font-weight: bold;" -->
+store config in environment variables  <!-- .element: class="lb" -->
 - easy to change between deploys without changing any code
 - not accidentally checked into repo
 - language- and OS-agnostic standard
@@ -142,11 +157,45 @@ Note:
 
 ----
 
+### Docker Secrets
+```
+docker secret create [OPTIONS] SECRET [file|-]
+```
+
+- stored in the encrypted Swarm Raft log
+- replicated among Swarm hosts
+- mounted as read-only tmpfs volume `/run/secrets/`
+
+```
+docker exec <container_id> cat /run/secrets/<secret-name>
+```
+----
+
+#### Grant Access To A Secret
+
+docker-compose.yml <!-- .element: class="lb" style="width: 90%; margin: 20px auto;" -->
+
+```yaml
+version: "3.1"
+services:
+  <service_name>:
+    <...>
+    secrets:
+      - <secret-name>
+    <...>
+secrets:
+  <secret-name>:
+   external: true
+```
+
+----
+
 ### [Vault](https://www.vaultproject.io/) – a secret store
 
 - stores credentials encrypted
 - provision credentials dynamically
 - completely free and open source
+- orchestrator independent
 
 ---
 
@@ -164,7 +213,7 @@ Note:
 
 ![stages](img/release.png) <!-- .element: style="filter: invert(87%); border: none; box-shadow: none;" -->
 
-strict separation between stages:  <!-- .element: style="text-align: left; font-weight: bold;" -->
+strict separation between stages:  <!-- .element: class="lb" -->
 1. **build** = code repo converted into executable bundle
 2. **release** = build + config
 3. **run** release in the execution environment
@@ -191,6 +240,29 @@ Note:
 Note:
 - impossible to make changes to the code at runtime
 - a release cannot be mutated once it is created
+
+----
+
+### Docker
+
+- **Build:** Defined in *Dockerfile* and created by
+  ```
+  docker build --tag name:version .
+  ```
+  <!-- .element: style="width: 100%;" -->
+
+- **Release:** Defined in *docker-compose.yml*
+
+- **Run:**
+  ```
+  docker-compose up name
+  ```
+  <!-- .element: style="width: 100%;" -->
+  or  
+  ```
+  docker stack deploy -c docker-compose.yml name
+  ```
+  <!-- .element: style="width: 100%;" -->
 
 ---
 
@@ -312,7 +384,7 @@ Introspection:
 
 ----
 
-### How to run
+### How to run admin process
 
 - identical environment
 - run against a release
@@ -320,6 +392,28 @@ Introspection:
 
 Note:
 - use the same dependencies (e.g. interpreter (Node.js, Python, etc.))
+
+----
+
+#### Run Admin Process in Docker container
+
+- In General
+```bash
+docker exec [OPTIONS] CONTAINER COMMAND [ARG...]
+```
+
+- Run MongoDB client on admin database in service container `db` in deployed stack `app`.
+```bash
+docker exec --interactive --tty \
+    app_db.1.$(docker service ps -f 'name=app_db.1' app_db -q) \
+    mongo admin
+```
+
+- Run JavaScript file from host (sent on stdin)
+```bash
+cat script.js | docker exec --interactive ${CONTAINER} mongo --quiet
+```
+
 
 ---
 
