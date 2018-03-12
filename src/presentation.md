@@ -102,6 +102,11 @@ Note:
 - Yarn was built to be deterministic, reliable, and fast
     - VCS: add `package.json` and `yarn.lock`, ignore `node_modules`
 
+Note:
+- yarn von Facebook, Exponent, Google und Tilde
+- npm package.loock bisher nicht zuverlässig genug
+- yarn schneller
+
 ---
 
 ## 3. Config
