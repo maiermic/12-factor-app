@@ -453,3 +453,13 @@ Note:
 
 The End.
 
+---
+
+## Bonus
+
+----
+
+### Monitoring
+
+- [Grafana](https://grafana.com/)
+- [Prometheus](https://prometheus.io/)
