@@ -31,6 +31,11 @@ yarn run watch
 Open http://localhost:1948/presentation.md
 
 ### Create PDF
+```
+yarn run create-pdf
+```
+
+#### Alternative
 Local development server has to be running on port 1948
 
 ```
