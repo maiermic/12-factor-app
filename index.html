@@ -12,7 +12,22 @@
     <body>
 
         <div class="reveal">
-            <div class="slides"><section  data-markdown><script type="text/template"># [Twelve Factor Apps](https://12factor.net)
+            <div class="slides"><section  data-markdown><script type="text/template"><style>
+.reveal code {
+    background: #3f3f3f;
+    color: #dcdcdc;
+    font-size: 80%;
+}
+.lb {
+  text-align: left;
+  font-weight: bold;
+}
+.ml-48 {
+  margin-left: 48px;
+}
+</style>
+
+# [Twelve Factor Apps](https://12factor.net)
 
 methodology for building software-as-a-service apps
 </script></section><section ><section data-markdown><script type="text/template">
@@ -67,7 +82,7 @@ A deploy is a running instance of the app
 <li>codebase is the same across all deploys</li>
 <li>different versions may be active in each deploy</li>
 </ul>
-</aside></script></section></section><section  data-markdown><script type="text/template">
+</aside></script></section></section><section ><section data-markdown><script type="text/template">
 ## 2. Dependencies
 
 - explicitly declare and isolate dependencies
@@ -86,7 +101,20 @@ A deploy is a running instance of the app
 </ul>
 </li>
 </ul>
-</aside></script></section><section ><section data-markdown><script type="text/template">
+</aside></script></section><section data-markdown><script type="text/template">
+### NPM vs. YARN
+
+- NPM is not 100 percent deterministic
+    - different versions might be installed on another computer (even if you use NPM shrinkwrap)
+- Yarn was built to be deterministic, reliable, and fast
+    - VCS: add `package.json` and `yarn.lock`, ignore `node_modules`
+
+<aside class="notes"><ul>
+<li>yarn von Facebook, Exponent, Google und Tilde</li>
+<li>npm package.loock bisher nicht zuverlässig genug</li>
+<li>yarn schneller</li>
+</ul>
+</aside></script></section></section><section ><section data-markdown><script type="text/template">
 ## 3. Config
 
 - Resource handles to the database, Memcached, and other backing services
@@ -104,7 +132,7 @@ A deploy is a running instance of the app
 </aside></script></section><section data-markdown><script type="text/template">
 ### Configuration Files
 
-Disadvantages:  <!-- .element: style="text-align: left; font-weight: bold;" -->
+Disadvantages:  <!-- .element: class="lb" -->
 - easy to mistakenly check in to the repo
 - tendency to be scattered about in
   - different places
@@ -112,7 +140,7 @@ Disadvantages:  <!-- .element: style="text-align: left; font-weight: bold;" -->
 </script></section><section data-markdown><script type="text/template">
 ### Environment Variables
 
-store config in environment variables  <!-- .element: style="text-align: left; font-weight: bold;" -->
+store config in environment variables  <!-- .element: class="lb" -->
 - easy to change between deploys without changing any code
 - not accidentally checked into repo
 - language- and OS-agnostic standard
@@ -133,11 +161,41 @@ store config in environment variables  <!-- .element: style="text-align: left; f
 <li>your secret keys are implicitly made available to any 3rd-party tools you&#39;re using (like ImageMagick to resize an image)</li>
 </ul>
 </aside></script></section><section data-markdown><script type="text/template">
+### Docker Secrets
+```
+docker secret create [OPTIONS] SECRET [file|-]
+```
+
+- stored in the encrypted Swarm Raft log
+- replicated among Swarm hosts
+- mounted as read-only tmpfs volume `/run/secrets/`
+
+```
+docker exec <container_id> cat /run/secrets/<secret-name>
+```</script></section><section data-markdown><script type="text/template">
+#### Grant Access To A Secret
+
+docker-compose.yml <!-- .element: class="lb" style="width: 90%; margin: 20px auto;" -->
+
+```yaml
+version: "3.1"
+services:
+  <service_name>:
+    <...>
+    secrets:
+      - <secret-name>
+    <...>
+secrets:
+  <secret-name>:
+   external: true
+```
+</script></section><section data-markdown><script type="text/template">
 ### [Vault](https://www.vaultproject.io/) – a secret store
 
 - stores credentials encrypted
 - provision credentials dynamically
 - completely free and open source
+- orchestrator independent
 </script></section></section><section  data-markdown><script type="text/template">
 ## 4. Backing services
 
@@ -152,7 +210,7 @@ store config in environment variables  <!-- .element: style="text-align: left; f
 
 ![stages](data:image/png;base64,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) <!-- .element: style="filter: invert(87%); border: none; box-shadow: none;" -->
 
-strict separation between stages:  <!-- .element: style="text-align: left; font-weight: bold;" -->
+strict separation between stages:  <!-- .element: class="lb" -->
 1. **build** = code repo converted into executable bundle
 2. **release** = build + config
 3. **run** release in the execution environment
@@ -183,7 +241,28 @@ strict separation between stages:  <!-- .element: style="text-align: left; font-
 <li>impossible to make changes to the code at runtime</li>
 <li>a release cannot be mutated once it is created</li>
 </ul>
-</aside></script></section></section><section  data-markdown><script type="text/template">
+</aside></script></section><section data-markdown><script type="text/template">
+### Docker
+
+- **Build:** Defined in *Dockerfile* and created by
+  ```
+  docker build --tag name:version .
+  ```
+  <!-- .element: style="width: 100%;" -->
+
+- **Release:** Defined in *docker-compose.yml*
+
+- **Run:**
+  ```
+  docker-compose up name
+  ```
+  <!-- .element: style="width: 100%;" -->
+  or  
+  ```
+  docker stack deploy -c docker-compose.yml name
+  ```
+  <!-- .element: style="width: 100%;" -->
+</script></section></section><section  data-markdown><script type="text/template">
 ## 6. Processes
 - app is executed in the execution environment as one or more processes
 - processes are stateless and share-nothing
@@ -278,6 +357,7 @@ Start = Recover Fast
 - log routers: [Logplex](https://github.com/heroku/logplex), [Fluentd](https://www.fluentd.org/)
 - log indexing and analysis system: [Splunk](https://www.splunk.com)
 - general-purpose data warehousing system: [Hadoop/Hive](https://hive.apache.org/)
+- [ELK-Stack](https://logz.io/learn/complete-guide-elk-stack/) ([Elasticsearch](https://www.elastic.co/products/elasticsearch), [Logstash](https://www.elastic.co/products/logstash), and [Kibana](https://www.elastic.co/products/kibana))
 
 <aside class="notes"><p>Introspection:</p>
 <ul>
@@ -293,7 +373,7 @@ Start = Recover Fast
 - console to run arbitrary code
 - one-time scripts committed into the app’s repo
 </script></section><section data-markdown><script type="text/template">
-### How to run
+### How to run admin process
 
 - identical environment
 - run against a release
@@ -302,7 +382,27 @@ Start = Recover Fast
 <aside class="notes"><ul>
 <li>use the same dependencies (e.g. interpreter (Node.js, Python, etc.))</li>
 </ul>
-</aside></script></section></section><section ><section data-markdown><script type="text/template">
+</aside></script></section><section data-markdown><script type="text/template">
+#### Run Admin Process in Docker container
+
+- In General
+```bash
+docker exec [OPTIONS] CONTAINER COMMAND [ARG...]
+```
+
+- Run MongoDB client on admin database in service container `db` in deployed stack `app`.
+```bash
+docker exec --interactive --tty \
+    app_db.1.$(docker service ps -f 'name=app_db.1' app_db -q) \
+    mongo admin
+```
+
+- Run JavaScript file from host (sent on stdin)
+```bash
+cat script.js | docker exec --interactive ${CONTAINER} mongo --quiet
+```
+
+</script></section></section><section ><section data-markdown><script type="text/template">
 ## Should I use microservices?
   
 > any decent answer to an interesting question begins, "it depends..."  
@@ -326,8 +426,14 @@ Start = Recover Fast
 [Martin Fowler](https://martinfowler.com/bliki/MicroservicePremium.html)
 </script></section></section><section  data-markdown><script type="text/template">
 The End.
+</script></section><section ><section data-markdown><script type="text/template">
+## Bonus
+</script></section><section data-markdown><script type="text/template">
+### Monitoring
 
-</script></section></div>
+- [Grafana](https://grafana.com/)
+- [Prometheus](https://prometheus.io/)
+</script></section></section></div>
         </div>
 
         <script src="./lib/js/head.min.js"></script>
