@@ -1,6 +1,6 @@
 # 12-factor-app
 
-See [presentation](https://maiermic.github.io/12-factor-app/) (work in progress).
+See [presentation](https://maiermic.github.io/12-factor-app/).
 
 ## Keyboard Shortcuts
 
