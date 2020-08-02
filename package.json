@@ -11,7 +11,7 @@
     "create-pdf-local": "decktape reveal http://localhost:1948/src/presentation.md 12-factor-app.pdf",
     "create-pdf": "reveal-md src/presentation.md --theme black --print 12-factor-app.pdf",
     "start": "reveal-md src/presentation.md",
-    "watch": "cd src && reveal-md -w presentation.md"
+    "watch": "cd src && reveal-md presentation.md -w"
   },
   "author": "Michael Maier",
   "repository": {
@@ -23,7 +23,7 @@
     "gh-pages": "^1.1.0",
     "gitconfig": "^2.0.3",
     "phantom": "^4.0.12",
-    "reveal-md": "^1.1.3"
+    "reveal-md": "^4.1.2"
   },
   "license": "MIT"
 }
